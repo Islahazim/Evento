@@ -81,15 +81,6 @@ class _ManageEventsPageState extends State<ManageEventsPage>
             return ListTile(
               title: Text(event['eventName']),
               subtitle: Text(event['eventDateTime']),
-              trailing: IconButton(
-                icon: const Icon(Icons.delete, color: Colors.red),
-                onPressed: () async {
-                  await deleteEvent(events[index].id);
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text('Event deleted successfully')),
-                  );
-                },
-              ),
             );
           },
         );
