@@ -27,17 +27,9 @@ class LoginPage extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                const Text(
-                  "Welcome To",
-                  style: TextStyle(
-                    fontSize: 36,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black,
-                  ),
-                ),
                 Image.asset(
-                  'assets/Evento.png', // Replace with your image path
-                  height: 100,
+                  'assets/EVENTO_logo.png', // Replace with your image path
+                  height: 300,
                   width: 400,
                 ),
                 const Text(
@@ -63,15 +55,6 @@ class LoginPage extends StatelessWidget {
                   height: 4,
                 ),
                 const SizedBox(height: 24),
-                const Text(
-                  "Create Account with",
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w500,
-                    color: Colors.black,
-                  ),
-                ),
-                const SizedBox(height: 12),
                 ElevatedButton.icon(
                   onPressed: () async {
                     try {
