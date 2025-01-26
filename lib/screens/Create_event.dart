@@ -142,6 +142,6 @@ class _CreateEventPageState extends State<CreateEventPage> {
         .set(eventData);
 
     // Optionally save event in a global 'events' collection
-    await FirebaseFirestore.instance.collection('events').doc(eventId).set(eventData);
+    // await FirebaseFirestore.instance.collection('events').doc(eventId).set(eventData);
   }
 }
