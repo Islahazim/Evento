@@ -3,11 +3,23 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:uuid/uuid.dart';
 
-class CreateEventPage extends StatelessWidget {
+class CreateEventPage extends StatefulWidget {
+
+  CreateEventPage({super.key});
+
+  @override
+  State<CreateEventPage> createState() => _CreateEventPageState();
+}
+
+class _CreateEventPageState extends State<CreateEventPage> {
   final TextEditingController eventNameController = TextEditingController();
+
   final TextEditingController descriptionController = TextEditingController();
+
   final TextEditingController venueController = TextEditingController();
+
   final TextEditingController maxPaxController = TextEditingController();
+
   DateTime? eventDateTime;
 
   @override

@@ -4,6 +4,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class JoinEventPage extends StatelessWidget {
   final TextEditingController eventCodeController = TextEditingController();
 
+  JoinEventPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
