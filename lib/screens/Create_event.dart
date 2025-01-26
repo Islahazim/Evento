@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:uuid/uuid.dart';
+import 'dart:math';
 
 class CreateEventPage extends StatefulWidget {
-
-  CreateEventPage({super.key});
+  const CreateEventPage({super.key});
 
   @override
   State<CreateEventPage> createState() => _CreateEventPageState();
@@ -13,14 +12,51 @@ class CreateEventPage extends StatefulWidget {
 
 class _CreateEventPageState extends State<CreateEventPage> {
   final TextEditingController eventNameController = TextEditingController();
-
   final TextEditingController descriptionController = TextEditingController();
-
   final TextEditingController venueController = TextEditingController();
-
   final TextEditingController maxPaxController = TextEditingController();
+  final TextEditingController dateTimeController = TextEditingController();
 
-  DateTime? eventDateTime;
+  DateTime? selectedDateTime;
+
+  // Function to pick date and time
+  Future<void> _pickDateTime(BuildContext context) async {
+    final selectedDate = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime.now(),
+      lastDate: DateTime(2100),
+    );
+
+    if (selectedDate != null) {
+      final selectedTime = await showTimePicker(
+        context: context,
+        initialTime: TimeOfDay.now(),
+      );
+
+      if (selectedTime != null) {
+        setState(() {
+          selectedDateTime = DateTime(
+            selectedDate.year,
+            selectedDate.month,
+            selectedDate.day,
+            selectedTime.hour,
+            selectedTime.minute,
+          );
+
+          dateTimeController.text =
+          "${selectedDate.day}/${selectedDate.month}/${selectedDate.year} ${selectedTime.hour}:${selectedTime.minute}";
+        });
+      }
+    }
+  }
+
+  // Function to generate a random event code
+  String generateEventCode() {
+    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890';
+    final random = Random();
+    return List.generate(6, (index) => chars[random.nextInt(chars.length)]).join();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -33,55 +69,63 @@ class _CreateEventPageState extends State<CreateEventPage> {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              // Event Name Input
+              // Event Name
               TextField(
                 controller: eventNameController,
                 decoration: const InputDecoration(labelText: 'Event Name'),
               ),
-              // Description Input
+              const SizedBox(height: 16),
+
+              // Date and Time
               TextField(
-                controller: descriptionController,
-                decoration: const InputDecoration(labelText: 'Description'),
+                controller: dateTimeController,
+                readOnly: true,
+                onTap: () => _pickDateTime(context),
+                decoration: const InputDecoration(
+                  labelText: 'Date/Time',
+                  suffixIcon: Icon(Icons.calendar_today),
+                ),
               ),
-              // Venue Input
+              const SizedBox(height: 16),
+
+              // Venue
               TextField(
                 controller: venueController,
                 decoration: const InputDecoration(labelText: 'Venue'),
               ),
-              // Maximum Pax Input
+              const SizedBox(height: 16),
+
+              // Description
+              TextField(
+                controller: descriptionController,
+                decoration: const InputDecoration(labelText: 'Description'),
+              ),
+              const SizedBox(height: 16),
+
+              // Maximum Pax
               TextField(
                 controller: maxPaxController,
                 decoration: const InputDecoration(labelText: 'Maximum Pax (Optional)'),
                 keyboardType: TextInputType.number,
               ),
-              const SizedBox(height: 16),
-              // Date Picker Button
-              ElevatedButton(
-                onPressed: () async {
-                  eventDateTime = await showDatePicker(
-                    context: context,
-                    initialDate: DateTime.now(),
-                    firstDate: DateTime.now(),
-                    lastDate: DateTime(2100),
-                  );
-                },
-                child: const Text('Select Event Date'),
-              ),
-              const SizedBox(height: 16),
+              const SizedBox(height: 32),
+
               // Create Event Button
               ElevatedButton(
                 onPressed: () async {
-                  if (eventNameController.text.isNotEmpty && eventDateTime != null) {
+                  if (eventNameController.text.isNotEmpty && selectedDateTime != null) {
                     try {
+                      final eventCode = generateEventCode();
                       await createEvent(
                         eventNameController.text,
                         descriptionController.text,
                         venueController.text,
-                        eventDateTime!,
+                        selectedDateTime!,
                         maxPaxController.text,
+                        eventCode,
                       );
                       ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text('Event created successfully!')),
+                        SnackBar(content: Text('Event created successfully! Event Code: $eventCode')),
                       );
                       Navigator.pop(context);
                     } catch (e) {
@@ -110,8 +154,9 @@ class _CreateEventPageState extends State<CreateEventPage> {
       String venue,
       DateTime eventDateTime,
       String maxPax,
+      String eventCode,
       ) async {
-    // Get current user
+    // Get the current user
     final user = FirebaseAuth.instance.currentUser;
 
     if (user == null) {
@@ -119,7 +164,7 @@ class _CreateEventPageState extends State<CreateEventPage> {
     }
 
     // Generate unique event ID
-    final eventId = Uuid().v4();
+    final eventId = eventCode;
 
     // Event data to save
     final eventData = {
@@ -131,6 +176,7 @@ class _CreateEventPageState extends State<CreateEventPage> {
       'maxPax': maxPax.isNotEmpty ? int.parse(maxPax) : null,
       'createdAt': DateTime.now().toIso8601String(),
       'createdBy': user.uid, // Associate event with the current user
+      'eventCode': eventCode, // Random code for joining the event
     };
 
     // Save event under the user's subcollection
@@ -142,6 +188,6 @@ class _CreateEventPageState extends State<CreateEventPage> {
         .set(eventData);
 
     // Optionally save event in a global 'events' collection
-    // await FirebaseFirestore.instance.collection('events').doc(eventId).set(eventData);
+    await FirebaseFirestore.instance.collection('events').doc(eventId).set(eventData);
   }
 }

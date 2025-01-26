@@ -3,8 +3,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class ManageEventsPage extends StatefulWidget {
-  const ManageEventsPage({super.key});
-
   @override
   _ManageEventsPageState createState() => _ManageEventsPageState();
 }
@@ -78,15 +76,68 @@ class _ManageEventsPageState extends State<ManageEventsPage>
           itemBuilder: (context, index) {
             final event = events[index].data() as Map<String, dynamic>;
 
-            return ListTile(
-              title: Text(event['eventName']),
-              subtitle: Text(event['eventDateTime']),
+            return Card(
+              margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      event['eventName'] ?? 'No Event Name',
+                      style: const TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    Text(
+                      'Date and Time: ${event['eventDateTime'] ?? 'No Date/Time'}',
+                      style: const TextStyle(fontSize: 14),
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      'Venue: ${event['venue'] ?? 'No Venue'}',
+                      style: const TextStyle(fontSize: 14),
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      'Description: ${event['description'] ?? 'No Description'}',
+                      style: const TextStyle(fontSize: 14),
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      'Maximum Pax: ${event['maxPax'] ?? 'Not Specified'}',
+                      style: const TextStyle(fontSize: 14),
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      'Event Code: ${event['eventCode'] ?? 'No Event Code'}',
+                      style: const TextStyle(fontSize: 14, color: Colors.black),
+                    ),
+                    const SizedBox(height: 16),
+                    Align(
+                      alignment: Alignment.centerRight,
+                      child: IconButton(
+                        icon: const Icon(Icons.delete, color: Colors.red),
+                        onPressed: () async {
+                          await deleteEvent(events[index].id);
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(content: Text('Event deleted successfully')),
+                          );
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+              ),
             );
           },
         );
       },
     );
   }
+
 
   Widget _buildJoinedEventsTab() {
     if (user == null) {
@@ -97,7 +148,7 @@ class _ManageEventsPageState extends State<ManageEventsPage>
       stream: FirebaseFirestore.instance
           .collection('users')
           .doc(user!.uid)
-          .collection('joinedEvents') // Joined events subcollection
+          .collection('JoinedEvents') // Joined events subcollection
           .snapshots(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
@@ -130,7 +181,7 @@ class _ManageEventsPageState extends State<ManageEventsPage>
     await FirebaseFirestore.instance
         .collection('users')
         .doc(user!.uid)
-        .collection('events')
+        .collection('CreatedEvents')
         .doc(eventId)
         .delete();
 
