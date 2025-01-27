@@ -35,7 +35,7 @@ class FirebaseServices {
       }
     } on FirebaseAuthException catch (e) {
       print("Error during Google Sign-In: ${e.message}");
-      throw e;
+      rethrow;
     }
     return null;
   }

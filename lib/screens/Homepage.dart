@@ -5,6 +5,8 @@ import '../services/firebase_services.dart';
 class HomePage extends StatelessWidget {
   final FirebaseServices _firebaseServices = FirebaseServices();
 
+  HomePage({super.key});
+
   @override
   Widget build(BuildContext context) {
     final User? user = FirebaseAuth.instance.currentUser;

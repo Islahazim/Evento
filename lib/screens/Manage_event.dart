@@ -3,6 +3,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class ManageEventsPage extends StatefulWidget {
+  const ManageEventsPage({super.key});
+
   @override
   _ManageEventsPageState createState() => _ManageEventsPageState();
 }

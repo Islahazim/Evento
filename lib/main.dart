@@ -4,7 +4,6 @@ import 'package:evento/screens/login_page.dart';
 import '../screens/Create_event.dart';
 import '../screens/Join_event.dart';
 import '../screens/Manage_event.dart';
-import '../screens/login_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -13,6 +12,8 @@ void main() async {
 }
 
 class EventoApp extends StatelessWidget {
+  const EventoApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
