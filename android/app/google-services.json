@@ -22,6 +22,14 @@
           }
         },
         {
+          "client_id": "495593832079-ufdv8ng7p2v4mf7l9htebjg90l79hipk.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.evento",
+            "certificate_hash": "e52babfab7667f26fe7014ca929374de654afb1c"
+          }
+        },
+        {
           "client_id": "495593832079-aq187mi5kihfu66toeojir3bo9tnoc4i.apps.googleusercontent.com",
           "client_type": 3
         }
