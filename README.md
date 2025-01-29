@@ -22,7 +22,7 @@ This app is designed to streamline the RSVP process, making event organization m
 ## 🔄 App Flowchart
 This flowchart represents the overall event creation and joining process.
 <p align="center">
-  <img src="readme_assets/Flowchart.jpg" alt="Event Flowchart" width="80%"/>
+  <img src="readme_assets/Flowchart.png" alt="Event Flowchart" width="80%"/>
 </p>
 
 ## 📄 Pages
