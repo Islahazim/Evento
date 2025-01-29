@@ -28,24 +28,29 @@ This flowchart represents the overall event creation and joining process.
 ## 📄 Pages
 Below are the pages that exist in this application.
 
-Login page: Use google sign-in as authentication to get the profile of the user <br>
-            Page image: 🖼️
+Login page: <br>
+Use google sign-in as authentication to get the profile of the user <br>
+Page image: 🖼️
 
-Home page: User will choose whether to create event, join event, or manage event <br>
-           User will also be able to logout by pressing the logout buttton <br>
-           Page image: 🖼️
+Home page: <br>
+User will choose whether to create event, join event, or manage event <br>
+User will also be able to logout by pressing the logout buttton <br>
+Page image: 🖼️
 
-Create event page: User will need to fill the form detailing the event <br>
-                   Unique six character code will be created for people to join the event <br>
-                   Page image: 🖼️
+Create event page: <br>
+User will need to fill the form detailing the event <br>
+Unique six character code will be created for people to join the event <br>
+Page image: 🖼️
 
-Join event page: User will input unique six character code belonging to the event that they wanted to join <br>
-                 Page image: 🖼️
+Join event page: <br>
+User will input unique six character code belonging to the event that they wanted to join <br>
+Page image: 🖼️
 
-Manage event page: Display two tab which are created event tab and joined event tab <br>
-                   Created event tab display the event that are created by the the user and some details of the event <br>
-                   Joined event tab display the event that the user joined and their six character unique code <br>
-                   Page image: 🖼️
+Manage event page: <br>
+Display two tab which are created event tab and joined event tab <br>
+Created event tab display the event that are created by the the user and some details of the event <br>
+Joined event tab display the event that the user joined and their six character unique code <br>
+Page image: 🖼️
 
 ## 🚫 Restrictions & Compatibility
 
