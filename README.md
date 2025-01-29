@@ -13,14 +13,47 @@ Seamless UI: Simple and intuitive design for easy navigation.
 This app is designed to streamline the RSVP process, making event organization more efficient and hassle-free. 🚀
 
 🛠️ Technologies Used:
-Flutter - Frontend framework for building the UI.
-Dart - Programming language for Flutter.
-Firebase Authentication - Handles user login and registration.
-Firebase Firestore - Cloud database to store event details and user participation.
+<p align="center">
+  <img src="readme_assets/flutter icon.png" alt="Flutter" width="60"/>
+  <img src="readme_assets/dart icon.png" alt="Dart" width="60"/>
+  <img src="readme_assets/firebase icon.png" alt="Firebase" width="60"/>
+</p>
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+## 🔄 App Flowchart
+This flowchart represents the overall event creation and joining process.
+<p align="center">
+  <img src="readme_assets/Flowchart.png" alt="Event Flowchart" width="80%"/>
+</p>
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## 📄 Pages
+Below are the pages that exist in this application.
+
+Login page: <br>
+- Use google sign-in as authentication to get the profile of the user <br>
+- Page image: 🖼️
+
+Home page: <br>
+- User will choose whether to create event, join event, or manage event <br>
+- User will also be able to logout by pressing the logout buttton <br>
+- Page image: 🖼️
+
+Create event page: <br>
+- User will need to fill the form detailing the event <br>
+- Unique six character code will be created for people to join the event <br>
+- Page image: 🖼️
+
+Join event page: <br>
+- User will input unique six character code belonging to the event that they wanted to join <br>
+- Page image: 🖼️
+
+Manage event page: <br>
+- Display two tab which are created event tab and joined event tab <br>
+- Created event tab display the event that are created by the the user and some details of the event <br>
+- Joined event tab display the event that the user joined and their six character unique code <br>
+- Page image: 🖼️
+
+## 🚫 Restrictions & Compatibility
+
+- 📱 **Supported Platform:** **Android only** *(iOS support is not available yet)*
+- 🔢 **Minimum Android Version:** **Android 14+**
+- 🚧 **Known Issue:** Users on **Android 13 and below** may face issues with login functionality.
