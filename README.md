@@ -22,8 +22,30 @@ This app is designed to streamline the RSVP process, making event organization m
 ## 🔄 App Flowchart
 This flowchart represents the overall event creation and joining process.
 <p align="center">
-  <img src="readme_assets/Flutter project.jpg" alt="Event Flowchart" width="80%"/>
+  <img src="readme_assets/Flowchart.jpg" alt="Event Flowchart" width="80%"/>
 </p>
+
+## 📄 Pages
+Below are the pages that exist in this application.
+
+Login page: Use google sign-in as authentication to get the profile of the user
+            Page image: 🖼️
+
+Home page: User will choose whether to create event, join event, or manage event
+           User will also be able to logout by pressing the logout buttton
+           Page image: 🖼️
+
+Create event page: User will need to fill the form detailing the event
+                   Unique six character code will be created for people to join the event
+                   Page image: 🖼️
+
+Join event page: User will input unique six character code belonging to the event that they wanted to join
+                 Page image: 🖼️
+
+Manage event page: Display two tab which are created event tab and joined event tab
+                   Created event tab display the event that are created by the the user and some details of the event
+                   Joined event tab display the event that the user joined and their six character unique code
+                   Page image: 🖼️
 
 ## 🚫 Restrictions & Compatibility
 
