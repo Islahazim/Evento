@@ -28,7 +28,7 @@ This flowchart represents the overall event creation and joining process.
 ## 📄 Pages
 Below are the pages that exist in this application.
 
-Login page: Use google sign-in as authentication to get the profile of the user
+Login page: Use google sign-in as authentication to get the profile of the user<br>
             Page image: 🖼️
 
 Home page: User will choose whether to create event, join event, or manage event
