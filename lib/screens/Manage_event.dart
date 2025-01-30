@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'participants_page.dart';
 
 class ManageEventsPage extends StatefulWidget {
   const ManageEventsPage({super.key});
@@ -77,6 +78,7 @@ class _ManageEventsPageState extends State<ManageEventsPage>
           itemCount: events.length,
           itemBuilder: (context, index) {
             final event = events[index].data() as Map<String, dynamic>;
+            final eventID = events[index].id;
 
             return Card(
               margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
@@ -118,6 +120,21 @@ class _ManageEventsPageState extends State<ManageEventsPage>
                       style: const TextStyle(fontSize: 14, color: Colors.black),
                     ),
                     const SizedBox(height: 16),
+
+                    ElevatedButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ParticipantsPage(
+                              eventId: eventID,
+                              eventName: event['eventName']),
+                            ),
+                          );
+                        },
+                        child: const Text('View Participants'),
+                      ),
+
                     Align(
                       alignment: Alignment.centerRight,
                       child: IconButton(

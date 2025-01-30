@@ -4,6 +4,7 @@ import 'package:evento/screens/login_page.dart';
 import '../screens/Create_event.dart';
 import '../screens/Join_event.dart';
 import '../screens/Manage_event.dart';
+import '../screens/participants_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -24,6 +25,7 @@ class EventoApp extends StatelessWidget {
         '/createEvent': (context) => CreateEventPage(),
         '/joinEvent': (context) => JoinEventPage(),
         '/manageEvents': (context) => ManageEventsPage(),
+        '/participants': (context) => ParticipantsPage(eventId: '', eventName: ''),
       },
     );
   }
