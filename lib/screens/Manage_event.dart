@@ -227,11 +227,8 @@ class _ManageEventsPageState extends State<ManageEventsPage>
     final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
     QuerySnapshot joinedUsersSnapshot = await _firestore
-    .collection('events')
-    .where(
-      'JoinedEvents.$eventId',
-      isEqualTo: true)
-      .get();
+        .collection('users')
+        .get();
 
     // Remove event from each user's joined events
     for (var userDoc in joinedUsersSnapshot.docs){
@@ -243,19 +240,14 @@ class _ManageEventsPageState extends State<ManageEventsPage>
           .get();
 
         if(joinedEventDoc.exists){
-          await _firestore
-          .collection('users')
-          .doc(userDoc.id)
-          .collection('JoinedEvents')
-          .doc(eventId)
-          .delete();
+          await joinedEventDoc.reference.delete(); // Delete event from user’s JoinedEvents
         }
     }
 
     // Remove all participants from the event
     QuerySnapshot participantsSnapshot = await _firestore
       .collection('events')
-      .doc('eventId')
+      .doc(eventId)
       .collection('Participants')
       .get();
 
