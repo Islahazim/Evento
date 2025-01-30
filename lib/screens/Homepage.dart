@@ -52,7 +52,17 @@ class HomePage extends StatelessWidget {
           ),
         ],
       ),
-      body: Padding(
+      body: Container(
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            colors: [
+              Color(0xFFD1A055), // Top gradient color
+              Color(0xFFF3C1A9), // Bottom gradient color
+            ],
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+          ),
+        ),
         padding: const EdgeInsets.all(16.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -77,7 +87,7 @@ class HomePage extends StatelessWidget {
             // User Email
             Text(
               user?.email ?? "No Email",
-              style: TextStyle(fontSize: 16, color: Colors.grey),
+              style: TextStyle(fontSize: 16, color: Colors.black),
             ),
             SizedBox(height: 32),
 

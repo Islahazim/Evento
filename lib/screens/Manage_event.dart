@@ -40,15 +40,28 @@ class _ManageEventsPageState extends State<ManageEventsPage>
           ],
         ),
       ),
-      body: TabBarView(
-        controller: _tabController,
-        children: [
-          // Tab for Created Events
-          _buildCreatedEventsTab(),
-          // Tab for Joined Events
-          _buildJoinedEventsTab(),
-        ],
+      body: Container(
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            colors: [
+              Color(0xFFD1A055), // Top gradient color
+              Color(0xFFF3C1A9), // Bottom gradient color
+            ],
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+          ),
+        ),
+        child: TabBarView(
+          controller: _tabController,
+          children: [
+            // Tab for Created Events
+            _buildCreatedEventsTab(),
+            // Tab for Joined Events
+            _buildJoinedEventsTab(),
+          ],
+        ),
       ),
+
     );
   }
 
