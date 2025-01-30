@@ -73,4 +73,39 @@ class FirebaseServices {
       print("Error during sign out: $e");
     }
   }
+
+  Future<void> addUserToParticipants(String eventCode) async {
+    try {
+      final User? user = FirebaseAuth.instance.currentUser;
+      if (user == null) {
+        throw Exception("User not signed in.");
+      }
+
+      String userID = user.uid;
+      String name = user.displayName ?? "Unknown";
+      String email = user.email ?? "No Email";
+      String photoURL = user.photoURL ?? "";
+
+      DocumentReference eventRef =
+          FirebaseFirestore.instance.collection("events").doc(eventCode);
+
+      // Ensure event exists
+      DocumentSnapshot eventSnapshot = await eventRef.get();
+      if (!eventSnapshot.exists) {
+        throw Exception("Event does not exist.");
+      }
+
+      // **Add user to Participants collection inside the event**
+      await eventRef.collection("Participants").doc(userID).set({
+        "userId": userID,
+        "name": name,
+        "email": email,
+        "photoURL": photoURL,
+        "joinedAt": FieldValue.serverTimestamp(),
+      });
+
+    } catch (e) {
+      print("❌ Error adding user to Participants: $e");
+    }
+  }
 }
