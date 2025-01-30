@@ -7,6 +7,35 @@ class HomePage extends StatelessWidget {
 
   HomePage({super.key});
 
+  void _showLogoutDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text("Logout"),
+          content: Text("Are you sure you want to logout?"),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(); // Close the dialog
+              },
+              child: Text("Cancel"),
+            ),
+            TextButton(
+              onPressed: () async {
+                await _firebaseServices.googleSignOut();
+                Navigator.of(context).pop(); //Close the dialog
+                Navigator.pushReplacementNamed(
+                    context, '/login'); // Navigate to Login page
+              },
+              child: Text("Logout", style: TextStyle(color: Colors.red)),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final User? user = FirebaseAuth.instance.currentUser;
@@ -18,8 +47,7 @@ class HomePage extends StatelessWidget {
           IconButton(
             icon: Icon(Icons.logout),
             onPressed: () async {
-              await _firebaseServices.googleSignOut();
-              Navigator.pushReplacementNamed(context, '/login'); // Navigate to login page
+              _showLogoutDialog(context); // Navigate to login page
             },
           ),
         ],
@@ -93,3 +121,4 @@ class HomePage extends StatelessWidget {
     );
   }
 }
+
