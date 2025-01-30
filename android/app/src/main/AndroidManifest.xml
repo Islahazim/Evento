@@ -42,5 +42,5 @@
             <data android:mimeType="text/plain"/>
         </intent>
     </queries>
-    <uses-sdk android:minSdkVersion="34" />
+    <!--uses-sdk android:minSdkVersion="34" /> -->
 </manifest>

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import '../Services/firebase_services.dart';
 
 class JoinEventPage extends StatelessWidget {
   final TextEditingController eventCodeController = TextEditingController();
@@ -33,6 +34,8 @@ class JoinEventPage extends StatelessWidget {
                     final event = await fetchEventByCode(eventCode);
                     if (event != null) {
                       await addToJoinedEvents(event);
+                      await FirebaseServices().addUserToParticipants(eventCode);
+
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(content: Text('Joined event: ${event['eventName']}')),
                       );
