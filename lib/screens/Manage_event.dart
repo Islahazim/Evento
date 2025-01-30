@@ -140,10 +140,38 @@ class _ManageEventsPageState extends State<ManageEventsPage>
                       child: IconButton(
                         icon: const Icon(Icons.delete, color: Colors.red),
                         onPressed: () async {
-                          await deleteEvent(events[index].id);
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(content: Text('Event deleted successfully')),
+                          bool confirmDelete = await showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                title: const Text("Delete Event"),
+                                content: const Text("Are you sure you want to delete this event?"),
+                                actions: <Widget>[
+                                  TextButton(
+                                    onPressed: () => Navigator.pop(context, false),
+                                    child: const Text("Cancel"),
+                                  ),
+                                  TextButton(
+                                    onPressed: () => Navigator.pop(context, true),
+                                    child: const Text("Delete", style: TextStyle(color: Colors.red)),
+                                  ),
+                                ],
+                              );
+                            },
                           );
+
+                          if (confirmDelete){
+                            try {
+                              await deleteEvent(event['eventId']);
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(content: Text('Event deleted successfully')),
+                            );
+                            } catch (e) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(content: Text('Error: $e')),
+                              );
+                            }
+                          }
                         },
                       ),
                     ),
@@ -196,15 +224,52 @@ class _ManageEventsPageState extends State<ManageEventsPage>
   }
 
   Future<void> deleteEvent(String eventId) async {
-    // Delete from the specific user's created events
-    await FirebaseFirestore.instance
-        .collection('users')
-        .doc(user!.uid)
-        .collection('CreatedEvents')
-        .doc(eventId)
-        .delete();
+    final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-    // Optionally delete from the global events collection
-    await FirebaseFirestore.instance.collection('events').doc(eventId).delete();
+    QuerySnapshot joinedUsersSnapshot = await _firestore
+    .collection('events')
+    .where(
+      'JoinedEvents.$eventId',
+      isEqualTo: true)
+      .get();
+
+    // Remove event from each user's joined events
+    for (var userDoc in joinedUsersSnapshot.docs){
+      DocumentSnapshot joinedEventDoc = await _firestore
+          .collection('users')
+          .doc(userDoc.id)
+          .collection('JoinedEvents')
+          .doc(eventId)
+          .get();
+
+        if(joinedEventDoc.exists){
+          await _firestore
+          .collection('users')
+          .doc(userDoc.id)
+          .collection('JoinedEvents')
+          .doc(eventId)
+          .delete();
+        }
+    }
+
+    // Remove all participants from the event
+    QuerySnapshot participantsSnapshot = await _firestore
+      .collection('events')
+      .doc('eventId')
+      .collection('Participants')
+      .get();
+
+    for (var participant in participantsSnapshot.docs){
+      await participant.reference.delete();
+    }
+
+    //Deleting the event from the database
+    await _firestore.collection('events').doc(eventId).delete();
+    await _firestore
+      .collection('users')
+      .doc(FirebaseAuth.instance.currentUser!.uid)
+      .collection('CreatedEvents')
+      .doc(eventId)
+      .delete();
   }
 }
