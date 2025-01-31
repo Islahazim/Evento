@@ -3,10 +3,35 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import '../Services/firebase_services.dart';
 
-class JoinEventPage extends StatelessWidget {
+class JoinEventPage extends StatefulWidget {
+  const JoinEventPage({super.key});
+
+  @override
+  State<JoinEventPage> createState() => _JoinEventPageState();
+}
+
+class _JoinEventPageState extends State<JoinEventPage> {
   final TextEditingController eventCodeController = TextEditingController();
 
-  JoinEventPage({super.key});
+  @override
+  void initState() {
+    super.initState();
+    eventCodeController.addListener(() {
+      final text = eventCodeController.text.toUpperCase();
+      if (eventCodeController.text != text) {
+        eventCodeController.value = eventCodeController.value.copyWith(
+          text: text,
+          selection: TextSelection.collapsed(offset: text.length),
+        );
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    eventCodeController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -14,18 +39,25 @@ class JoinEventPage extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Join Event'),
       ),
-      body: Padding(
+      body: Container(
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            colors: [
+              Color(0xFFD1A055), // Top gradient color
+              Color(0xFFF3C1A9), // Bottom gradient color
+            ],
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+          ),
+        ),
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
-            // Event Code Input
             TextField(
               controller: eventCodeController,
               decoration: const InputDecoration(labelText: 'Enter Event Code'),
             ),
             const SizedBox(height: 16),
-
-            // Join Event Button
             ElevatedButton(
               onPressed: () async {
                 final eventCode = eventCodeController.text.trim();
@@ -39,7 +71,7 @@ class JoinEventPage extends StatelessWidget {
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(content: Text('Joined event: ${event['eventName']}')),
                       );
-                      Navigator.pop(context); // Navigate back after successful join
+                      Navigator.pop(context);
                     } else {
                       ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(content: Text('Invalid event code')),
@@ -64,7 +96,6 @@ class JoinEventPage extends StatelessWidget {
     );
   }
 
-  // Fetch event details by event code
   Future<Map<String, dynamic>?> fetchEventByCode(String eventCode) async {
     final querySnapshot = await FirebaseFirestore.instance
         .collection('events')
@@ -77,7 +108,6 @@ class JoinEventPage extends StatelessWidget {
     return null;
   }
 
-  // Add event to user's JoinedEvents subcollection
   Future<void> addToJoinedEvents(Map<String, dynamic> event) async {
     final user = FirebaseAuth.instance.currentUser;
 
@@ -89,9 +119,9 @@ class JoinEventPage extends StatelessWidget {
         .collection('users')
         .doc(user.uid)
         .collection('JoinedEvents')
-        .doc(event['eventId']); // Use eventId as the document ID
+        .doc(event['eventId']);
 
-    // Save the event details in the user's JoinedEvents subcollection
     await joinedEventRef.set(event);
   }
 }
+

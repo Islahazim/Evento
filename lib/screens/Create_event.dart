@@ -64,87 +64,89 @@ class _CreateEventPageState extends State<CreateEventPage> {
       appBar: AppBar(
         title: const Text('Create Event'),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              // Event Name
-              TextField(
-                controller: eventNameController,
-                decoration: const InputDecoration(labelText: 'Event Name'),
-              ),
-              const SizedBox(height: 16),
-
-              // Date and Time
-              TextField(
-                controller: dateTimeController,
-                readOnly: true,
-                onTap: () => _pickDateTime(context),
-                decoration: const InputDecoration(
-                  labelText: 'Date/Time',
-                  suffixIcon: Icon(Icons.calendar_today),
+      body: Container(
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            colors: [
+              Color(0xFFD1A055), // Top gradient color
+              Color(0xFFF3C1A9), // Bottom gradient color
+            ],
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+          ),
+        ),
+        child: SizedBox.expand( // Ensures the gradient covers the entire screen
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              children: [
+                TextField(
+                  controller: eventNameController,
+                  decoration: const InputDecoration(labelText: 'Event Name'),
                 ),
-              ),
-              const SizedBox(height: 16),
-
-              // Venue
-              TextField(
-                controller: venueController,
-                decoration: const InputDecoration(labelText: 'Venue'),
-              ),
-              const SizedBox(height: 16),
-
-              // Description
-              TextField(
-                controller: descriptionController,
-                decoration: const InputDecoration(labelText: 'Description'),
-              ),
-              const SizedBox(height: 16),
-
-              // Maximum Pax
-              TextField(
-                controller: maxPaxController,
-                decoration: const InputDecoration(labelText: 'Maximum Pax (Optional)'),
-                keyboardType: TextInputType.number,
-              ),
-              const SizedBox(height: 32),
-
-              // Create Event Button
-              ElevatedButton(
-                onPressed: () async {
-                  if (eventNameController.text.isNotEmpty && selectedDateTime != null) {
-                    try {
-                      final eventCode = generateEventCode();
-                      await createEvent(
-                        eventNameController.text,
-                        descriptionController.text,
-                        venueController.text,
-                        selectedDateTime!,
-                        maxPaxController.text,
-                        eventCode,
-                      );
+                const SizedBox(height: 16),
+                TextField(
+                  controller: dateTimeController,
+                  readOnly: true,
+                  onTap: () => _pickDateTime(context),
+                  decoration: const InputDecoration(
+                    labelText: 'Date/Time',
+                    suffixIcon: Icon(Icons.calendar_today),
+                  ),
+                ),
+                const SizedBox(height: 16),
+                TextField(
+                  controller: venueController,
+                  decoration: const InputDecoration(labelText: 'Venue'),
+                ),
+                const SizedBox(height: 16),
+                TextField(
+                  controller: descriptionController,
+                  decoration: const InputDecoration(labelText: 'Description'),
+                ),
+                const SizedBox(height: 16),
+                TextField(
+                  controller: maxPaxController,
+                  decoration: const InputDecoration(labelText: 'Maximum Pax (Optional)'),
+                  keyboardType: TextInputType.number,
+                ),
+                const SizedBox(height: 32),
+                ElevatedButton(
+                  onPressed: () async {
+                    if (eventNameController.text.isNotEmpty && selectedDateTime != null) {
+                      try {
+                        final eventCode = generateEventCode();
+                        await createEvent(
+                          eventNameController.text,
+                          descriptionController.text,
+                          venueController.text,
+                          selectedDateTime!,
+                          maxPaxController.text,
+                          eventCode,
+                        );
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text('Event created successfully! Event Code: $eventCode')),
+                        );
+                        Navigator.pop(context);
+                      } catch (e) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text('Error: $e')),
+                        );
+                      }
+                    } else {
                       ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text('Event created successfully! Event Code: $eventCode')),
-                      );
-                      Navigator.pop(context);
-                    } catch (e) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text('Error: $e')),
+                        const SnackBar(content: Text('Please fill all required fields')),
                       );
                     }
-                  } else {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('Please fill all required fields')),
-                    );
-                  }
-                },
-                child: const Text('Create Event'),
-              ),
-            ],
+                  },
+                  child: const Text('Create Event'),
+                ),
+              ],
+            ),
           ),
         ),
       ),
+
     );
   }
 
