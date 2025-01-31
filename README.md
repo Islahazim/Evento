@@ -19,9 +19,9 @@ This app is designed to streamline the RSVP process, making event organization m
 
 🛠️ Technologies Used:
 <p align="center">
-  <img src="readme_assets/flutter icon.png" alt="Flutter" width="60"/>
-  <img src="readme_assets/dart icon.png" alt="Dart" width="60"/>
-  <img src="readme_assets/firebase icon.png" alt="Firebase" width="60"/>
+  <img src="readme_assets/flutter icon.png" alt="Flutter" width="80"/>
+  <img src="readme_assets/dart icon.png" alt="Dart" width="80"/>
+  <img src="readme_assets/firebase icon.png" alt="Firebase" width="80"/>
 </p>
 
 ## 🔄 App Flowchart
@@ -33,48 +33,34 @@ This flowchart represents the overall event creation and joining process.
 ## 📄 Pages
 Below are the pages that exist in this application.
 
-Login page: <br>
+Login & Home page: <br>
 - Use google sign-in as authentication to get the profile of the user <br>
-<p align="center">
-  <img src="readme_assets/Loginpage.jpg" alt="Login Page" width="30%"/>
-</p>
-
-Home page: <br>
 - User will choose whether to create event, join event, or manage event <br>
 - User will also be able to logout by pressing the logout buttton <br>
 <p align="center">
+  <img src="readme_assets/Loginpage.jpg" alt="Login Page" width="30%"/>
   <img src="readme_assets/Homepage.jpg" alt="Home Page" width="30%"/>
 </p>
 
-Create event page: <br>
+Create & Join event page: <br>
 - User will need to fill the form detailing the event <br>
 - Unique six character code will be created for people to join the event <br>
-<p align="center">
-  <img src="readme_assets/Create Event.jpg" alt="Create Event Page" width="30%"/>
-</p>
-
-Join event page: <br>
 - User will input unique six character code belonging to the event that they wanted to join <br>
 <p align="center">
+  <img src="readme_assets/Create Event.jpg" alt="Create Event Page" width="30%"/>
   <img src="readme_assets/Join Event.jpg" alt="Join Event Page" width="30%"/>
 </p>
 
-Manage event page: <br>
+Manage event page (Created, and Joined): <br>
 - Display two tab which are created event tab and joined event tab <br>
 - Created event tab display the event that are created by the the user and some details of the event <br>
-<p align="center">
-  <img src="readme_assets/Manage Event Created.jpg" alt="Manage Event Page(Created Event Tab)" width="30%"/>
-</p> 
-
-- Also able to checked the participants of the event
-<p align="center">
-  <img src="readme_assets/Participant list.jpg" alt="Manage Event Page(Created Event Tab)" width="30%"/>
-</p>
-
+- Also able to checked the participants of the event <br>
 - Joined event tab display the event that the user joined <br>
 <p align="center">
+  <img src="readme_assets/Manage Event Created.jpg" alt="Manage Event Page(Created Event Tab)" width="30%"/>
+  <img src="readme_assets/Participant list.jpg" alt="Manage Event Page(Created Event Tab)" width="30%"/>
   <img src="readme_assets/Manage Event Joined.jpg" alt="Manage Event Page(Joined Event Tab)" width="30%"/>
-</p>
+</p> 
 
 ## 🚫 Restrictions & Compatibility
 
